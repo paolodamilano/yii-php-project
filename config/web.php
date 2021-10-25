@@ -20,6 +20,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
+            'class' => 'listfixer\remember\RememberMe',
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
@@ -43,14 +44,13 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a973addecfa2040a73918abda938727c",
+    "content-hash": "0534fde4194a3fc2825af12519ef5b6b",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -346,6 +346,51 @@
                 "source": "https://github.com/ezyang/htmlpurifier/tree/master"
             },
             "time": "2020-06-29T00:56:53+00:00"
+        },
+        {
+            "name": "listfixer/yii2-remember-me",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ListFixer/yii2-remember-me.git",
+                "reference": "2246d98a16524e6dcff4bf801734a9fa23b99096"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ListFixer/yii2-remember-me/zipball/2246d98a16524e6dcff4bf801734a9fa23b99096",
+                "reference": "2246d98a16524e6dcff4bf801734a9fa23b99096",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "^2.0.10"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "listfixer\\remember\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Labriola"
+                }
+            ],
+            "description": "Enhanced Remember Me",
+            "keywords": [
+                "cookie",
+                "login",
+                "remember",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/ListFixer/yii2-remember-me/issues",
+                "source": "https://github.com/listfixer/yii2-remember-me"
+            },
+            "time": "2017-02-04T12:55:19+00:00"
         },
         {
             "name": "npm-asset/bootstrap",

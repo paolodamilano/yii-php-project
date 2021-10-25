@@ -19,8 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'id' => 'login-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 col-form-label'],
+            'inputOptions' => ['class' => 'col-sm-4 form-control'],
+            'horizontalCssClasses' => ['error' => 'col-sm-6 col-form-label'],
+            'template' => "{label}\n{input}\n{error}\n{hint}",
         ],
     ]); ?>
 
@@ -28,9 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'password')->passwordInput() ?>
 
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"offset-lg-1 col-lg-3 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
+        <?= $form->field($model, 'rememberMe', ['labelOptions' => ['class' => 'col-sm-12']])->checkbox() ?>
 
         <div class="form-group">
             <div class="offset-lg-1 col-lg-11">
@@ -40,8 +39,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php ActiveForm::end(); ?>
 
-    <div class="offset-lg-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
-    </div>
 </div>
