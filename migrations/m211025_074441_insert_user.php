@@ -14,16 +14,16 @@ class m211025_074441_insert_user extends Migration
     {
         $this->insert('user',[
             'username' => "admin",
-            'password' => "admin",
-            'auth_key' => "test100key",
-            'access_token' => "100-token"
+            'password' => Yii::$app->getSecurity()->generatePasswordHash("admin"),
+            'auth_key' => Yii::$app->getSecurity()->generateRandomString(),
+            'access_token' => Yii::$app->getSecurity()->generateRandomString()
         ]);
 
         $this->insert('user',[
             'username' => "demo",
-            'password' => "demo",
-            'auth_key' => "test101key",
-            'access_token' => "101-token"
+            'password' => Yii::$app->getSecurity()->generatePasswordHash("demo"),
+            'auth_key' => Yii::$app->getSecurity()->generateRandomString(),
+            'access_token' => Yii::$app->getSecurity()->generateRandomString()
         ]);
     }
 

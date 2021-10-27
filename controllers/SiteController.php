@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -36,6 +38,23 @@ class SiteController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function beforeAction($action) {
+
+
+        if (Yii::$app->user->isGuest && Yii::$app->controller->action->id != "login") {
+        
+            Yii::$app->user->loginRequired();
+        
+        }
+        
+        //something code right here if user valid
+        
+        return true;
+        
+                
+        
     }
 
     /**
@@ -124,5 +143,29 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Upload file page.
+     *
+     * @return Response|string
+     */
+    public function actionUpload(){
+        $model = new UploadForm();
+        $model->load(Yii::$app->request->post());
+        if(Yii::$app->request->isPost){ 
+            $model->file = UploadedFile::getInstance($model,'file');
+            $ckUpload = $model->upload();
+            if ($ckUpload) {
+                Yii::$app->session->setFlash('fileUploaded');
+                return $this->refresh();
+            }
+            else{
+                Yii::$app->session->setFlash('ErrorfileUpload');
+                return $this->refresh(); 
+            }
+        }else{
+            return $this->render('upload',['model'=>$model]);
+        }
     }
 }
