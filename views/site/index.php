@@ -25,10 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($searchModel, 'cf_piva') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Search', ['class'=>'btn btn-primary']) ?>
     </div>
-
-<?php ActiveForm::end(); ?>
 
 <div class="site-index">
     <?php
@@ -52,10 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'data_creazione',
             'id_pratica',
             'stato',
-            [
-                'attribute' => "Prova",
-                'value' => "clienteInfo.nome"
-            ]
+            'denominazione'
         ];
 
         // Renders a export dropdown menu
@@ -84,15 +79,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id_pratica',
                 'stato',
                 [
-                    'attribute' => "Prova",
-                    'value' => "clienteInfo.nome"
+                    'attribute' => "Denominazione",
+                    'value'=>function($dataProvider) {
+                        return $dataProvider->clienteInfo['nome']." ".$dataProvider->clienteInfo['cognome'];
+                    
+                    }  
                 ]
             ],
             'pager' => [
                 'class' => '\yii\bootstrap4\LinkPager',
             ]
         ]);
+    ?>
 
+    <?php } ?>
+    
 
-    }?>
 </div>
+
+<?php ActiveForm::end(); ?>

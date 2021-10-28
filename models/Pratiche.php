@@ -71,7 +71,7 @@ class Pratiche extends \yii\db\ActiveRecord
             $db = Yii::$app->db;
             $result = $db->createCommand()->batchInsert("pratiche",$columnsName,$records)->execute();
             return true;
-        }catch (IntegrityException $e) {
+        }catch (\Exception $e) {
             return false;
         }
     }

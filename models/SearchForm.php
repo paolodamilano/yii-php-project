@@ -37,9 +37,9 @@ class SearchForm extends Model
         ];
     }
 
+    // function for extract data from DB (all or filtered)
     public function search($params = null){
         $query = Pratiche::find();
-        //$query->select(['data_creazione', 'id_pratica', 'stato', 'clienti.codice_fiscale']);
         $query->andFilterWhere(['id_pratica' => $this->id_pratica]);
         $query->andFilterWhere(['clienti.codice_fiscale' => $this->cf_piva]);
         $query->joinWith('clienteInfo');
@@ -51,4 +51,29 @@ class SearchForm extends Model
         ]);
         return $dataProvider;
     }
+
+    /*
+    // function for export data on CSV file
+    public function export($data){
+        $tmppath = 'export';
+        $list = array ();
+        foreach ($data->models as $model) {
+            $row = array(
+                $model->data_creazione,
+                $model->id_pratica,
+                $model->stato,
+                $model->clienteInfo['nome']." ".$model->clienteInfo['cognome'],
+            );
+            array_push($list, $row);
+        }
+        $filepath = $tmppath.'/'.date('Ymd').'_exportfile.csv';
+        $fp = fopen($filepath, 'w+');
+        foreach ($list as $fields) {
+            fputcsv($fp, $fields);
+        }
+        fclose($fp);
+        
+        return $filepath;
+    }
+    */
 }

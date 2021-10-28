@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\base\ErrorException;
+use yii\db\IntegrityException;
 
 /**
  * This is the model class for table "clienti".
@@ -58,7 +60,7 @@ class Clienti extends \yii\db\ActiveRecord
             $db = Yii::$app->db;
             $result = $db->createCommand()->batchInsert("clienti",$columnsName,$records)->execute();
             return true;
-        }catch (IntegrityException $e) {
+        }catch (\Exception $e) {
             return false;
         }
     }

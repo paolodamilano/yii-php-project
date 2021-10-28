@@ -77,33 +77,61 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays search form and results.
      *
      * @return string
      */
     public function actionIndex()
     {
-        
         $searchModel = new SearchForm();
         if(!(\Yii::$app->request->post()) && !(Yii::$app->request->queryParams)){
+            // no filtering (no input data from search form)
             $dataProvider = false;
         }
         else{
+            // filtering data
             $searchModel->load(\Yii::$app->request->post());
             $session = Yii::$app->session;
             $session->open();
             if(!(\Yii::$app->request->post())){
-                // recupero dati in sessione
+                // load sessions data (moving between pages)
                 $searchModel->id_pratica = $session->get('id_pratica');
                 $searchModel->cf_piva = $session->get('cf_piva');
             }else{
-                // salvo in sessione
+                // save sessions data 
                 $session->set('id_pratica', $searchModel->id_pratica);
                 $session->set('cf_piva', $searchModel->cf_piva);
             }
             $session->close();
             $dataProvider = $searchModel->search();
         }
+
+        /*
+        if(Yii::$app->request->post('export') === "export"){
+            // export data on CSV file
+            $filepath = $searchModel->export($dataProvider);
+            var_dump(Yii::$app->request->post);
+            if(file_exists($filepath)) {
+                //return Yii::$app->response->sendFile($filepath, readfile($filepath));
+
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="'.basename($filepath).'"');
+                header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+                header("Cache-Control: post-check=0, pre-check=0", false);
+                header("Pragma: no-cache");
+                header('Content-Length: ' . filesize($filepath));
+                flush(); // Flush system output buffer
+                readfile($filepath);
+                
+                // delete the dump file
+
+                //unlink($filepath);
+
+                exit;
+            }
+        }
+        */
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -168,23 +196,5 @@ class SiteController extends Controller
         }else{
             return $this->render('upload',['model'=>$model]);
         }
-    }
-
-    public function actionExport() {
-        $searchModel = new SearchForm();
-        $dataProvider = $searchModel->search();
-        ExcelView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'fullExportType'=> 'xlsx', //can change to html,xls,csv and so on
-            'grid_mode' => 'export',
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-                'data_creazione',
-                'id_pratica',
-                'stato',
-                'prova',
-              ],
-        ]);
     }
 }
