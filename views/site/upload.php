@@ -1,6 +1,10 @@
 <?php
+use yii\bootstrap4\Html;
 use yii\widgets\ActiveField;
 use yii\widgets\ActiveForm;
+
+$this->title = 'Upload';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php if (Yii::$app->session->hasFlash('fileUploaded')): ?>
@@ -28,7 +32,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'file', ['labelOptions' => ['class' => 'col-sm-12 form-control-file']])->fileInput() ?>
 
-    <button>Upload File</button>
+    <div class="form-group">
+        <?= Html::submitButton('Upload file', ['class' => 'btn btn-primary', 'name' => 'upload-button']) ?>
+    </div>
 
 <?php ActiveForm::end() ?>
 

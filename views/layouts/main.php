@@ -45,9 +45,11 @@ AppAsset::register($this);
     }
     else{
         $menuItems = [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Upload', 'url' => ['/site/upload']]
+            ['label' => 'Home', 'url' => ['/site/index']]
         ];
+        if(Yii::$app->user->identity->is_admin){
+            $menuItems[] = ['label' => 'Upload', 'url' => ['/site/upload']];
+        }
         $menuItems[] =
             '<li>'
             . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])

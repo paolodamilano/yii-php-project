@@ -13,6 +13,8 @@ use app\models\SearchForm;
 use app\models\UploadForm;
 use yii\web\UploadedFile;
 
+use arturoliveira\ExcelView;
+
 class SiteController extends Controller
 {
     /**
@@ -166,5 +168,23 @@ class SiteController extends Controller
         }else{
             return $this->render('upload',['model'=>$model]);
         }
+    }
+
+    public function actionExport() {
+        $searchModel = new SearchForm();
+        $dataProvider = $searchModel->search();
+        ExcelView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'fullExportType'=> 'xlsx', //can change to html,xls,csv and so on
+            'grid_mode' => 'export',
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'data_creazione',
+                'id_pratica',
+                'stato',
+                'prova',
+              ],
+        ]);
     }
 }

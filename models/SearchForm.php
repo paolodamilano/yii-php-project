@@ -39,13 +39,14 @@ class SearchForm extends Model
 
     public function search($params = null){
         $query = Pratiche::find();
+        //$query->select(['data_creazione', 'id_pratica', 'stato', 'clienti.codice_fiscale']);
         $query->andFilterWhere(['id_pratica' => $this->id_pratica]);
         $query->andFilterWhere(['clienti.codice_fiscale' => $this->cf_piva]);
         $query->joinWith('clienteInfo');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 1,
+                'pageSize' => 2,
             ],
         ]);
         return $dataProvider;
