@@ -6,9 +6,10 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\web\Session;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\SearchForm;
 use app\models\UploadForm;
 use yii\web\UploadedFile;
 
@@ -80,7 +81,33 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        
+        $searchModel = new SearchForm();
+        if(!(\Yii::$app->request->post()) && !(Yii::$app->request->queryParams)){
+            $dataProvider = false;
+        }
+        else{
+            $searchModel->load(\Yii::$app->request->post());
+            $session = Yii::$app->session;
+            $session->open();
+            if(!(\Yii::$app->request->post())){
+                // recupero dati in sessione
+                $searchModel->id_pratica = $session->get('id_pratica');
+                $searchModel->cf_piva = $session->get('cf_piva');
+            }else{
+                // salvo in sessione
+                $session->set('id_pratica', $searchModel->id_pratica);
+                $session->set('cf_piva', $searchModel->cf_piva);
+            }
+            $session->close();
+            $dataProvider = $searchModel->search();
+        }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+        
     }
 
     /**
@@ -115,34 +142,6 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 
     /**

@@ -52,7 +52,7 @@ class Pratiche extends \yii\db\ActiveRecord
             'data_creazione' => 'Data Creazione',
             'stato' => 'Stato',
             'note' => 'Note',
-            'id_cliente' => 'Id Cliente',
+            'id_cliente' => 'Id Cliente'
         ];
     }
 
